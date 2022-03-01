@@ -1,24 +1,56 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import Navbar from './components/Navbar';
+import Alert from './components/Alert';
+import TextForm from './components/TextForm';
+// import About from './components/About';
+// import {
+//   BrowserRouter as Router,
+//   Switch,
+//   Route
+// } from "react-router-dom";
 
 function App() {
+  const[mode,setMode]= useState("light");
+  const[alert,setAlert]= useState(null);
+
+  const showalert=(message,type)=>{
+    setAlert({
+      msg:message,
+      type:type
+    })
+    setTimeout(()=>{
+      setAlert(null)
+    },2000)
+  }
+
+  const change= ()=>{
+    if(mode==="light"){
+      setMode("dark");
+      showalert("Dark Mode Enabled","success")
+    }
+    else{
+      setMode("light");
+      showalert("Light Mode Enabled","success")
+    }
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+    { /* <Router> */ }
+    <Navbar title="TextUtils" about="About US" mode={mode} change={change}/>
+    <Alert alert={alert}/>
+    <div className="container my-3">
+    {/* <Switch>
+          <Route exact path="/about">
+            <About />
+          </Route> */}
+          {/* <Route exact path="/">  */}
+           <TextForm heading="Enter Your Text" mode={mode} showalert={showalert}/>
+          {/* </Route> */}
+    {/* </Switch> */}
     </div>
+    {/* </Router> */}
+    </>
   );
 }
 
